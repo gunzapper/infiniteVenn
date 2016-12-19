@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from functools import reduce, partial
+# from functools import reduce, partial
 # Hacks: I use `sub` to make sets difference
 # and `and_` for sets intersection
 from operator import sub, and_
@@ -8,26 +8,35 @@ from copy import deepcopy
 from collections import deque
 from scipy.special import binom
 
-def gen_sets(magnitude):
+
+def gen_sets(n):
     """
+    Generate n sets of n element of consecutive integers
+
     >>> list(gen_sets(3))
     [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}]
     """
-    for x in range(magnitude):
-        yield(set(range(x, x+magnitude)))
+    for x in range(n):
+        yield(set(range(x, x+n)))
+
 
 def purge(s, other_sets):
     """
-    >>> purge({0,1,2,3,4,5}, [{0,1,2}, {1,2,3}, {2,3,4}])
+    Substract from the set s the other_sets
+
+    >>> purge({0, 1, 2, 3, 4, 5}, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     {5}
     """
     o_s_clone = deque(deepcopy(other_sets))
     o_s_clone.appendleft(s)
     return reduce(sub, o_s_clone)
 
+
 def purge_by_indx(i, all_sets):
     """
-    >>> purge_by_indx(0, [{0,1,2}, {1,2,3}, {2,3,4}])
+    Substract from i-th set the rest of all_sets
+
+    >>> purge_by_indx(0, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     {0}
     """
     a_s_clone = deque(deepcopy(all_sets))
@@ -37,15 +46,22 @@ def purge_by_indx(i, all_sets):
         a_s_clone.appendleft(s)
     return reduce(sub, a_s_clone)
 
+
 def intersect_em_all(all_sets):
     """
+    Make the intersection of all_sets
+
     >>> intersect_em_all([{1,2,3,4}, {1,2,3,56,58}, {1,2,56,112}])
     {1, 2}
     """
     return reduce(and_, all_sets)
 
+
 def intersect_and_purge(to_intersect, other_sets):
     """
+    Intersect all sets to_intersect
+    and substract the result to other_sets
+
     >>> intersect_and_purge([{0,1,2,3}, {-1,0,2,3}],
     ...     [{'a', 'b', 'c'}, {2, 3, -1}])
     {0}
@@ -53,37 +69,50 @@ def intersect_and_purge(to_intersect, other_sets):
     i_s = intersect_em_all(to_intersect)
     return purge(i_s, other_sets)
 
+
 def intersect_and_purge_by_indx(indexes, all_sets):
     """
+    Intersect the sets with index in indexes from all_sets
+    and substract the result to the rest of all_sets
+
     >>> intersect_and_purge_by_indx([1, 2], [{0}, {0,1,2}, {1,2,3}])
     {1, 2}
     """
     to_inte = [all_sets[i] for i in indexes]
     s_i = intersect_em_all(to_inte)
-    return purge(s_i, [all_sets[j]
-        for j in range(len(all_sets))
-        if j not in indexes])
+    return purge(
+        s_i,
+        [all_sets[j]
+         for j in range(len(all_sets))
+         if j not in indexes])
+
 
 def getAccessions(xls_file, sheet_indx=0):
+    """
+    Returns all Accession Number in an Excel file
+    """
     from xlrd import open_workbook
     book = open_workbook(xls_file)
     sheet = book.sheet_by_index(sheet_indx)
 
     acc_indx = sheet.row_values(0).index('Accession')
 
-    for acc in sheet.col_values(acc_indx, 1):
-        yield acc
+    return (acc
+            for acc in sheet.col_values(acc_indx, 1))
+
 
 def polar_dist(n_angles):
     """
     Divide 2*pi in equal angles
+    and return the list
 
     >>> ["%.2f" %(p_c, )  for p_c in polar_dist(4)]
     ['0.00', '1.57', '3.14', '4.71']
     """
     from math import pi
     phi_incr = 2 * pi / n_angles
-    return [(i * phi_incr) for i in range(n_angles)]
+    return ((i * phi_incr) for i in range(n_angles))
+
 
 def sum_of_binom(n, k=0):
     """
@@ -101,6 +130,10 @@ def sum_of_binom(n, k=0):
 
 def transl(val, incr, max_limit, min_limit):
     """
+    Sum val to incr
+    if this is greater than max_limit, return mx_limit
+    if it less of min_limit, return min_limit
+
     >>> transl(0, 10, 15, 8)
     10
     >>> transl(0, 10,  9, 6)
@@ -115,8 +148,11 @@ def transl(val, incr, max_limit, min_limit):
         return min_limit
     return val
 
+
 def polar2cart(phi, rho):
     """
+    Convert polar coordinates to Cartesian
+
     >>> from math import pi
     >>> [int(c) for c in polar2cart(0, 1)]
     [1, 0]
@@ -147,20 +183,13 @@ if __name__ == "__main__":
 
     # 1. Read excel files
 
-    #root = r'/media/raid_2009/User_Temp/Valentina/Venn/' 
-    #_files = [
-	#"Freq_Riperf_X_IschEVLP_dta_351.xls",
-	#"Freq_Riperf_X_Isch_dta_351.xls",
-	#"Freq_Riperf_X_Battente_dta_351.xls"]
-
-
     root = r"../ExampleFile/AnnaMaria_7up"
-    _files = ["E1004.xls", "E973.xls", "E974.xls",
-            "E976.xls", "M917.xls", "M995.xls",
-            "WT459.xls"]
+    _files = [
+        "E1004.xls", "E973.xls", "E974.xls",
+        "E976.xls", "M917.xls", "M995.xls",
+        "WT459.xls"]
 
     sets = [set(getAccessions(os.path.join(root, f))) for f in _files]
-
 
     # 2. Initializing empty graph
     g = nx.Graph()
@@ -202,17 +231,22 @@ if __name__ == "__main__":
         # adjust the position of the next cycle
         # the update is at the end of the file
         max_size = 0
-        for j,c in enumerate(combinations(range(len(sets)), n_sets_to_inters)):
-            # adding a nod tho the graph
+        for j, c in enumerate(combinations(range(len(sets)),
+                                           n_sets_to_inters)):
+            # adding a node to the graph
             name = ('_'.join([_files[k][:-4] for k in c]))
             sub_set = intersect_and_purge_by_indx(c, sets)
             size = len(sub_set)
-            g.add_node(name, size=size, group=n_sets_to_inters,
-                    x=coords[j][0], y=coords[j][1])
+            g.add_node(
+                name, size=size,
+                group=n_sets_to_inters,
+                x=coords[j][0], y=coords[j][1])
 
             # writing in csv the subset
             with open('../sub_sets/%s.csv' % (name, ), 'wb') as out_file:
-                out_file.write(bytes('\n'.join(["%d" % (int(acc),) for acc in sub_set]), 'UTF-8'))
+                out_file.write(
+                    bytes('\n'.join(["%d" % (int(acc),)
+                                     for acc in sub_set]), 'UTF-8'))
 
             # update the max_sixe
             max_size = size if size > max_size else max_size
@@ -236,13 +270,14 @@ if __name__ == "__main__":
     assert(len(nodes) == sum_of_binom(len(sets)))
 
     # 5. adding edge to the graph.
-    for i,n in enumerate(nodes):
+    for i, n in enumerate(nodes):
         for m in nodes:
-            if any(part in m[0].split('_') for part in n[0].split('_'))\
-            and get_group(n) - get_group(m) == 1:
-                g.add_edge(n[0], m[0],
+            if (any(part in m[0].split('_') for part in n[0].split('_'))
+                    and get_group(n) - get_group(m) == 1):
+                g.add_edge(
+                    n[0], m[0],
                     value=get_group(m) - get_group(n))
 
     # 6. write the result in a json
-    d = json_graph.node_link_data(g) # node-link format to serialize
-    json.dump(d, open('force/force.json','w'), indent=4)
+    d = json_graph.node_link_data(g)  # node-link format to serialize
+    json.dump(d, open('force/force.json', 'w'), indent=4)
