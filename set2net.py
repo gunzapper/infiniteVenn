@@ -41,11 +41,8 @@ def intersect_and_purge_by_indx(indexes, all_sets):
     """
     to_inte = [all_sets[i] for i in indexes]
     s_i = intersect_em_all(to_inte)
-    return purge(
-        s_i,
-        [all_sets[j]
-         for j in range(len(all_sets))
-         if j not in indexes])
+    return purge(s_i, [all_sets[j] for j in range(len(all_sets))
+                       if j not in indexes])
 
 
 def getAccessions(xls_file, sheet_indx=0):
