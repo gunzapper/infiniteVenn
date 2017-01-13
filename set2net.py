@@ -9,17 +9,6 @@ from collections import deque
 from scipy.special import binom
 
 
-def gen_sets(n):
-    """
-    Generate n sets of n element of consecutive integers
-
-    >>> list(gen_sets(3))
-    [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}]
-    """
-    for x in range(n):
-        yield(set(range(x, x+n)))
-
-
 def purge(s, other_sets):
     """
     Substract from the set s the other_sets
@@ -32,21 +21,6 @@ def purge(s, other_sets):
     return reduce(sub, o_s_clone)
 
 
-def purge_by_indx(i, all_sets):
-    """
-    Substract from i-th set the rest of all_sets
-
-    >>> purge_by_indx(0, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
-    {0}
-    """
-    a_s_clone = deque(deepcopy(all_sets))
-    if i > 0:
-        s = a_s_clone[i]
-        a_s_clone.remove(s)
-        a_s_clone.appendleft(s)
-    return reduce(sub, a_s_clone)
-
-
 def intersect_em_all(all_sets):
     """
     Make the intersection of all_sets
@@ -55,19 +29,6 @@ def intersect_em_all(all_sets):
     {1, 2}
     """
     return reduce(and_, all_sets)
-
-
-def intersect_and_purge(to_intersect, other_sets):
-    """
-    Intersect all sets to_intersect
-    and substract the result to other_sets
-
-    >>> intersect_and_purge([{0,1,2,3}, {-1,0,2,3}],
-    ...     [{'a', 'b', 'c'}, {2, 3, -1}])
-    {0}
-    """
-    i_s = intersect_em_all(to_intersect)
-    return purge(i_s, other_sets)
 
 
 def intersect_and_purge_by_indx(indexes, all_sets):
