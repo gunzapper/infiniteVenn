@@ -88,9 +88,9 @@ def sum_of_binom(n, k=0):
 
 def transl(val, incr, max_limit, min_limit):
     """
-    Sum val to incr
-    if this is greater than max_limit, return mx_limit
-    if it less of min_limit, return min_limit
+    Cartesian translation from a cartesian system to another,
+    that have a maximun limit and a minimun limit.
+    Like a coordinate system of a plot.
 
     >>> transl(0, 10, 15, 8)
     10
