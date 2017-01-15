@@ -10,6 +10,14 @@ from collections import deque
 from scipy.special import binom
 
 
+class Set2NetError(Exception):
+    pass
+
+
+class SetsError(Set2NetError):
+    pass
+
+
 def purge(s, other_sets):
     """
     Substract from the set s the other_sets
@@ -226,7 +234,11 @@ if __name__ == "__main__":
 
     # check if the number of nodes generated
     # is as expected
-    assert(len(nodes) == sum_of_binom(len(sets)))
+    try:
+        assert(len(nodes) == sum_of_binom(len(sets)))
+    except AssertError:
+        raise SetsError('The number of sets obtained {} is not equal to expected {}'.format(
+            len(nodes), sum_of_binom(len(sets))))
 
     # 5. adding edge to the graph.
     for i, n in enumerate(nodes):
