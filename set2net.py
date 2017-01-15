@@ -4,6 +4,7 @@
 # Hacks: I use `sub` to make sets difference
 # and `and_` for sets intersection
 from operator import sub, and_
+from functools import reduce
 from copy import deepcopy
 from collections import deque
 from scipy.special import binom
