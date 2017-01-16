@@ -8,6 +8,12 @@ from functools import reduce
 from copy import deepcopy
 from collections import deque
 from scipy.special import binom
+import os
+from itertools import combinations
+import networkx as nx
+from networkx.readwrite import json_graph
+import json
+from math import sqrt
 
 
 class Set2NetError(Exception):
@@ -133,20 +139,11 @@ def polar2cart(phi, rho):
     y = rho * sin(phi)
     return(x, y)
 
+
 if __name__ == "__main__":
     # import doctest
     # doctest.testmod()
 
-    import os
-
-    from itertools import combinations
-
-    import networkx as nx
-
-    from networkx.readwrite import json_graph
-    import json
-
-    from math import sqrt
 
     # 1. Read excel files
 
