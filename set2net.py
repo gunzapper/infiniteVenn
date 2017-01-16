@@ -233,7 +233,7 @@ if __name__ == "__main__":
     # is as expected
     try:
         assert(len(nodes) == sum_of_binom(len(sets)))
-    except AssertError:
+    except AssertionError:
         raise SetsError('The number of sets obtained {} is not equal to expected {}'.format(
             len(nodes), sum_of_binom(len(sets))))
 
