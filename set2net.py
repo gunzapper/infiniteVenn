@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
-
+'''
+Compute the bven diagram for a random number of sets.
+'''
 # from functools import reduce, partial
 # Hacks: I use `sub` to make sets difference
 # and `and_` for sets intersection
@@ -17,22 +18,24 @@ from math import sqrt
 
 
 class Set2NetError(Exception):
+    '''Base error class of the module.'''
     pass
 
 
 class SetsError(Set2NetError):
+    '''error for set operations.'''
     pass
 
 
-def purge(s, other_sets):
+def purge(my_set, other_sets):
     """
-    Substract from the set s the other_sets
+    Substract from the set my_set the other_sets
 
     >>> purge({0, 1, 2, 3, 4, 5}, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     {5}
     """
     o_s_clone = deque(deepcopy(other_sets))
-    o_s_clone.appendleft(s)
+    o_s_clone.appendleft(my_set)
     return reduce(sub, o_s_clone)
 
 
@@ -232,8 +235,8 @@ if __name__ == "__main__":
     # check if the number of nodes generated
     # is as expected
     try:
-        assert(len(nodes) == sum_of_binom(len(sets)))
-    except AssertError:
+        assert len(nodes) == sum_of_binom(len(sets))
+    except AssertionError:
         raise SetsError('The number of sets obtained {} is not equal to expected {}'.format(
             len(nodes), sum_of_binom(len(sets))))
 
