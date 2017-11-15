@@ -8,4 +8,4 @@ def test_purge_simple():
     result = s2n.purge({0, 1, 2, 3, 4, 5}, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     assert result == {5}
     result = s2n.purge({0, 1, 2, 3, 4}, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
-    assert result == {}
+    assert result == set()
