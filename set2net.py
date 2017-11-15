@@ -6,7 +6,6 @@ Compute the bven diagram for a random number of sets.
 # and `and_` for sets intersection
 from operator import sub, and_
 from functools import reduce
-from copy import deepcopy
 from collections import deque
 from scipy.special import binom
 import os
@@ -34,7 +33,7 @@ def purge(my_set, other_sets):
     >>> purge({0, 1, 2, 3, 4, 5}, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     {5}
     """
-    o_s_clone = deque(deepcopy(other_sets))
+    o_s_clone = deque(other_sets)
     o_s_clone.appendleft(my_set)
     return reduce(sub, o_s_clone)
 
