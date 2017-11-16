@@ -27,7 +27,7 @@ def test_purge_other_sets_no_change():
     assert other_sets == copy_of_other_sets
 
 
-def test_purge_any_iterator():
+def test_purge_any_iterable():
     '''basic test'''
     result = s2n.purge(range(6), [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     assert result == {5}
