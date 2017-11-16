@@ -35,6 +35,7 @@ def purge(my_set, other_sets):
     """
     o_s_clone = deque(other_sets)
     o_s_clone.appendleft(my_set)
+    o_s_clone = [set(s) for s in o_s_clone]
     return reduce(sub, o_s_clone)
 
 
