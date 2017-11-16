@@ -15,6 +15,8 @@ from networkx.readwrite import json_graph
 import json
 from math import sqrt
 
+from typing import Iterable, Set
+
 
 class Set2NetError(Exception):
     '''Base error class of the module.'''
@@ -26,12 +28,16 @@ class SetsError(Set2NetError):
     pass
 
 
-def purge(my_set, other_sets):
+def purge(my_set: Set, other_sets: Iterable[Iterable]) -> Set:
     """
     Substract from the set my_set the other_sets
 
     >>> purge({0, 1, 2, 3, 4, 5}, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     {5}
+
+    :param my_set: set to substract all other_sets
+    :param other_sets: sets to substracts
+    :return: the set of elements only in my_set and not in other_sets
     """
     o_s_clone = deque(other_sets)
     o_s_clone.appendleft(my_set)
