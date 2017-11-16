@@ -2,6 +2,8 @@
 
 from copy import deepcopy
 
+import pytest
+
 import set2net as s2n
 
 
@@ -31,3 +33,11 @@ def test_purge_any_iterator():
     assert result == {5}
     result = s2n.purge({0, 1, 2, 3, 4}, [[0, 1, 2], [1, 2, 3], [2, 3, 4, 4]])
     assert result == set()
+
+
+def test_purge_no():
+    '''basic test'''
+    with pytest.raises(TypeError):
+        s2n.purge(6, [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
+    with pytest.raises(TypeError):
+        s2n.purge({0, 1, 2, 3, 4}, [0, 1, 2, 1, 2, 3, 2, 3, 4, 4])
