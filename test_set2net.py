@@ -19,6 +19,8 @@ def test_purge_simple():
     assert result == set()
     result = s2n.purge([], [{0, 1, 2}, {1, 2, 3}, {2, 3, 4}])
     assert result == set()
+    result = s2n.purge({0}, [])
+    assert result == {0}
 
 
 def test_purge_other_sets_no_change():
@@ -60,9 +62,10 @@ def test_purge_torture():
         assert res == set()
 
 
-@given(my=st.iterables(st.characters()),
-       others=st.iterables(
+@given(my=st.lists(st.characters()),
+       others=st.lists(
            st.iterables(st.characters())))
 def test_hypothesis(my, others):
+    assume(len(others) > 0)
     res = s2n.purge(my, others)
     assert res <= set(my)
