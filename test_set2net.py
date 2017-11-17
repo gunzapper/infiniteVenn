@@ -1,11 +1,12 @@
 '''test for set2net.'''
 
-from itertools import permutations
 import random
-from copy import deepcopy
 import string
+from copy import deepcopy
+from itertools import permutations
 
 import pytest
+from hypothesis import given, assume, strategies as st
 
 import set2net as s2n
 
@@ -57,3 +58,11 @@ def test_purge_torture():
         random.shuffle(other_strings)
         res = s2n.purge(my_string, other_strings)
         assert res == set()
+
+
+@given(my=st.iterables(st.characters()),
+       others=st.iterables(
+           st.iterables(st.characters())))
+def test_hypothesis(my, others):
+    res = s2n.purge(my, others)
+    assert res <= set(my)
