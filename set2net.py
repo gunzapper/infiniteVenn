@@ -1,21 +1,22 @@
 '''
 Compute the bven diagram for a random number of sets.
 '''
+
+import json
+import os
+from collections import deque
 # from functools import reduce, partial
+from functools import reduce
+from itertools import combinations
+from math import sqrt
 # Hacks: I use `sub` to make sets difference
 # and `and_` for sets intersection
-from operator import sub, and_
-from functools import reduce
-from collections import deque
-from scipy.special import binom
-import os
-from itertools import combinations
+from operator import and_, sub
+from typing import Iterable, Set
+
 import networkx as nx
 from networkx.readwrite import json_graph
-import json
-from math import sqrt
-
-from typing import Iterable, Set
+from scipy.special import binom
 
 
 class Set2NetError(Exception):
