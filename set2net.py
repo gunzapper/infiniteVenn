@@ -29,7 +29,7 @@ class SetsError(Set2NetError):
     pass
 
 
-def purge(my_set: Set, other_sets: Iterable[Iterable]) -> Set:
+def purge(my_set: Iterable, other_sets: Iterable[Iterable]) -> Set:
     """
     Substract from the set my_set the other_sets
 
