@@ -1,4 +1,3 @@
-'''test for set2net.'''
 
 import random
 import string
@@ -8,7 +7,7 @@ from itertools import permutations
 import pytest
 from hypothesis import given, assume, strategies as st
 
-import set2net as s2n
+from set2net import set2net as s2n
 
 
 def test_purge_simple():
@@ -62,9 +61,9 @@ def test_purge_torture():
         assert res == set()
 
 
-@given(my=st.lists(st.characters()),
-       others=st.lists(
-           st.iterables(st.characters())))
+@given(
+    my=st.lists(st.characters()),
+    others=st.lists(st.iterables(st.characters())))
 def test_hypothesis(my, others):
     assume(len(others) > 0)
     res = s2n.purge(my, others)
