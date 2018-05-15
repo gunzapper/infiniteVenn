@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+networkx = "*"
+scipy = "*"
+
+[dev-packages]
+coverage = "*"
+dodgy = "*"
+"flake8" = "*"
+hypothesis = "*"
+mccabe = "*"
+mypy = "*"
+pycodestyle = "*"
+pylint = "*"
+pyroma = "*"
+pytest = "*"
+vulture = "*"
+yapf = "*"
+
+[requires]
+python_version = "3.6"
