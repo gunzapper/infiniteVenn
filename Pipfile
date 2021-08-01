@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 networkx = "*"
 scipy = "*"
+set2net = {editable = true, path = "."}
 
 [dev-packages]
 coverage = "*"
