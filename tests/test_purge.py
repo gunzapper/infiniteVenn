@@ -1,4 +1,4 @@
-
+"""tests the purge function."""
 import random
 import string
 from copy import deepcopy
