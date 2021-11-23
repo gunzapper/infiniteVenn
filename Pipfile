@@ -10,17 +10,8 @@ set2net = {editable = true, path = "."}
 
 [dev-packages]
 coverage = "*"
-dodgy = "*"
-"flake8" = "*"
 hypothesis = "*"
-mccabe = "*"
-mypy = "*"
-pycodestyle = "*"
-pylint = "*"
-pyroma = "*"
 pytest = "*"
-vulture = "*"
-yapf = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.9"
