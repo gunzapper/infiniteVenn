@@ -52,7 +52,12 @@ def intersect_em_all(all_sets):
 
     >>> intersect_em_all([{1,2,3,4}, {1,2,3,56,58}, {1,2,56,112}])
     {1, 2}
+
+    >>> intersect_em_all([])
+    set()
     """
+    if not len(all_sets):
+        return set()
     return reduce(and_, all_sets)
 
 
